@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.infernal93.photofilters.Adapter.ThumbnailAdapter
 import com.infernal93.photofilters.Interface.FilterListFragmentListener
 import com.infernal93.photofilters.Utils.BitMapUtils
@@ -21,12 +22,26 @@ import com.zomato.photofilters.utils.ThumbnailItem
 import com.zomato.photofilters.utils.ThumbnailsManager
 import kotlinx.android.synthetic.main.fragment_filter_list.*
 
-class FilterListFragment : Fragment(), FilterListFragmentListener {
+class FilterListFragment : BottomSheetDialogFragment(), FilterListFragmentListener {
 
     internal lateinit var recycler_view: RecyclerView
     internal var listener: FilterListFragmentListener? = null
     internal lateinit var adapter: ThumbnailAdapter
     internal lateinit var thumbnailItemList: MutableList<ThumbnailItem>
+
+    companion object {
+
+        internal var instance: FilterListFragment? = null
+
+        fun getInstance(): FilterListFragment {
+            if (instance == null)
+                instance = FilterListFragment()
+            return instance!!
+        }
+
+    }
+
+
 
     fun setListener(listFragmentListener: FilterListFragmentListener) {
 

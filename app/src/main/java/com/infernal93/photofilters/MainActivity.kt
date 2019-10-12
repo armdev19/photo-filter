@@ -28,13 +28,18 @@ import com.zomato.photofilters.imageprocessors.Filter
 import com.zomato.photofilters.imageprocessors.subfilters.BrightnessSubFilter
 import com.zomato.photofilters.imageprocessors.subfilters.ContrastSubFilter
 import com.zomato.photofilters.imageprocessors.subfilters.SaturationSubfilter
+import ja.burhanrashid52.photoeditor.OnSaveBitmap
+import ja.burhanrashid52.photoeditor.PhotoEditor
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.lang.Exception
 import kotlin.jvm.internal.MutablePropertyReference
 
 class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener {
 
     val SELECT_GALLERY_PERMISSION = 1000
+
+    lateinit var photoEditor: PhotoEditor
 
     init {
         System.loadLibrary("NativeImageProcessor")
@@ -44,21 +49,21 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         brightnessFinal = brightness
         val myFilter = Filter()
         myFilter.addSubFilter(BrightnessSubFilter(brightness))
-        image_preview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
+        image_preview.source.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
     }
 
     override fun onSaturationChanged(saturation: Float) {
         saturationFinal = saturation
         val myFilter = Filter()
         myFilter.addSubFilter(SaturationSubfilter(saturation))
-        image_preview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
+        image_preview.source.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
     }
 
     override fun onConstrantChanged(constrant: Float) {
         contrastFinal = constrant
         val myFilter = Filter()
         myFilter.addSubFilter(ContrastSubFilter(constrant))
-        image_preview.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
+        image_preview.source.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
     }
 
     override fun onEditStarted() {
@@ -77,7 +82,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     override fun onFilterSelected(filter: Filter) {
         resetControls()
         filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
-        image_preview.setImageBitmap(filter.processFilter(filteredImage))
+        image_preview.source.setImageBitmap(filter.processFilter(filteredImage))
         finalImage = filteredImage.copy(Bitmap.Config.ARGB_8888, true)
     }
 
@@ -117,9 +122,29 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = "Photo Filters"
 
+        photoEditor = PhotoEditor.Builder(this@MainActivity, image_preview)
+            .setPinchTextScalable(true)
+            .build()
+
         loadImage()
-        setupViewPager(viewPager as NonSwipeViewPager)
-        tabs.setupWithViewPager(viewPager as NonSwipeViewPager)
+
+        // Init
+        filterListFragment = FilterListFragment.getInstance()
+        editImageFragment = EditImageFragment.getInstance()
+
+        btn_filters.setOnClickListener {
+            if (filterListFragment != null) {
+                filterListFragment.setListener(this@MainActivity)
+                filterListFragment.show(supportFragmentManager, filterListFragment.tag)
+            }
+        }
+
+        btn_edit.setOnClickListener {
+            if (editImageFragment != null) {
+                editImageFragment.setListener(this@MainActivity)
+                editImageFragment.show(supportFragmentManager, editImageFragment.tag)
+            }
+        }
     }
 
     private fun setupViewPager(viewPager: NonSwipeViewPager) {
@@ -145,7 +170,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         originalImage = BitMapUtils.getBitmapFromAssets(this@MainActivity, Main.IMAGE_NAME, width = 300, height = 300)
         filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888,true)
         finalImage = originalImage!!.copy(Bitmap.Config.ARGB_8888,true)
-        image_preview.setImageBitmap(originalImage)
+        image_preview.source.setImageBitmap(originalImage)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -176,23 +201,37 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
                     if (report!!.areAllPermissionsGranted()) {
 
-                        val path = BitMapUtils.insertImage(contentResolver = contentResolver,
-                            source = finalImage,
-                            title = System.currentTimeMillis().toString() +  "_profile.jpg",
-                            description = "")
+                        photoEditor.saveAsBitmap(object: OnSaveBitmap{
+                            override fun onFailure(e: Exception?) {
 
-                        if (!TextUtils.isEmpty(path)) {
+                                val snackBar = Snackbar.make(coordinator,e!!.message.toString(), Snackbar.LENGTH_LONG)
+                                snackBar.show()
+                            }
 
-                            val snackBar = Snackbar.make(coordinator, "Image saved to gallery", Snackbar.LENGTH_LONG)
-                                .setAction("OPEN") {
-                                    openImage(path)
+                            override fun onBitmapReady(saveBitmap: Bitmap?) {
+
+                                val path = BitMapUtils.insertImage(contentResolver = contentResolver,
+                                    source = saveBitmap,
+                                    title = System.currentTimeMillis().toString() +  "_profile.jpg",
+                                    description = "")
+
+                                if (!TextUtils.isEmpty(path)) {
+
+                                    val snackBar = Snackbar.make(coordinator, "Image saved to gallery", Snackbar.LENGTH_LONG)
+                                        .setAction("OPEN") {
+                                            openImage(path)
+                                        }
+                                    snackBar.show()
+                                } else {
+
+                                    val snackBar = Snackbar.make(coordinator,"Unable to save image", Snackbar.LENGTH_LONG)
+                                    snackBar.show()
                                 }
-                            snackBar.show()
-                        } else {
+                            }
 
-                            val snackBar = Snackbar.make(coordinator,"Unable to save image", Snackbar.LENGTH_LONG)
-                            snackBar.show()
-                        }
+                        })
+
+
                     }
                     else {
                         Toast.makeText(applicationContext, "Permission denied", Toast.LENGTH_LONG).show()

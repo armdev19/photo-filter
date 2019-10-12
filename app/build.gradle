@@ -35,9 +35,14 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
     implementation 'com.google.android.material:material:1.0.0'
+    //Recycler View
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
-
+    // Card View
+    implementation 'androidx.cardview:cardview:1.0.0'
+    // Photo Editor
+    implementation 'ja.burhanrashid52:photoeditor:0.4.0'
+    // Dexter for permissions
     implementation 'com.karumi:dexter:6.0.0'
-
+    // Filters library
     implementation 'info.androidhive:imagefilters:1.0.7'
 }
