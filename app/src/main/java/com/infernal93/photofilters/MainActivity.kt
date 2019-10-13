@@ -16,6 +16,7 @@ import android.webkit.PermissionRequest
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.infernal93.photofilters.Adapter.ViewPagerAdapter
+import com.infernal93.photofilters.Interface.BrushFragmentListener
 import com.infernal93.photofilters.Interface.EditImageFragmentListener
 import com.infernal93.photofilters.Interface.FilterListFragmentListener
 import com.infernal93.photofilters.Utils.BitMapUtils
@@ -35,7 +36,27 @@ import kotlinx.android.synthetic.main.content_main.*
 import java.lang.Exception
 import kotlin.jvm.internal.MutablePropertyReference
 
-class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener {
+class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener,
+    BrushFragmentListener {
+
+    override fun onBrushSizeChangedListener(size: Float) {
+        photoEditor.brushSize = (size)
+    }
+
+    override fun onBrushOpacityChangedListener(size: Int) {
+        photoEditor.setOpacity(size)
+    }
+
+    override fun onBrushColorChangedListener(color: Int) {
+        photoEditor.brushColor = color
+    }
+
+    override fun onBrushStateChangedListener(isEraser: Boolean) {
+        if (isEraser)
+            photoEditor.brushEraser()
+        else
+            photoEditor.setBrushDrawingMode(true)
+    }
 
     val SELECT_GALLERY_PERMISSION = 1000
 
@@ -101,6 +122,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
     internal lateinit var filterListFragment: FilterListFragment
     internal lateinit var editImageFragment: EditImageFragment
+    internal lateinit var brushFragment: BrushFragment
 
     internal var brightnessFinal = 0
     internal var saturationFinal = 1.0F
@@ -131,6 +153,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         // Init
         filterListFragment = FilterListFragment.getInstance()
         editImageFragment = EditImageFragment.getInstance()
+        brushFragment = BrushFragment.getInstance()
 
         btn_filters.setOnClickListener {
             if (filterListFragment != null) {
@@ -143,6 +166,16 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
             if (editImageFragment != null) {
                 editImageFragment.setListener(this@MainActivity)
                 editImageFragment.show(supportFragmentManager, editImageFragment.tag)
+            }
+        }
+
+        btn_brush.setOnClickListener {
+            if (brushFragment != null) {
+
+                photoEditor.setBrushDrawingMode(true)
+
+                brushFragment.setListener(this@MainActivity)
+                brushFragment.show(supportFragmentManager, brushFragment.tag)
             }
         }
     }

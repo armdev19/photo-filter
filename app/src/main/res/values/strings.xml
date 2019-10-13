@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Photo Filters</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
     <string name="filters">Filters</string>
     <string name="edit">Edit</string>
+    <string name="brush">Brush</string>
+
 </resources>
