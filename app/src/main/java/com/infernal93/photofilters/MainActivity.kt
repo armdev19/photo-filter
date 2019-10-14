@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Typeface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -18,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.infernal93.photofilters.Adapter.ViewPagerAdapter
 import com.infernal93.photofilters.Interface.BrushFragmentListener
 import com.infernal93.photofilters.Interface.EditImageFragmentListener
+import com.infernal93.photofilters.Interface.EmojiFragmentListener
 import com.infernal93.photofilters.Interface.FilterListFragmentListener
 import com.infernal93.photofilters.Utils.BitMapUtils
 import com.infernal93.photofilters.Utils.NonSwipeViewPager
@@ -37,7 +39,11 @@ import java.lang.Exception
 import kotlin.jvm.internal.MutablePropertyReference
 
 class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener,
-    BrushFragmentListener {
+    BrushFragmentListener, EmojiFragmentListener {
+
+    override fun onEmojiItemSelected(emoji: String) {
+        photoEditor.addEmoji(emoji)
+    }
 
     override fun onBrushSizeChangedListener(size: Float) {
         photoEditor.brushSize = (size)
@@ -123,6 +129,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     internal lateinit var filterListFragment: FilterListFragment
     internal lateinit var editImageFragment: EditImageFragment
     internal lateinit var brushFragment: BrushFragment
+    internal lateinit var emojiFragment: EmojiFragment
 
     internal var brightnessFinal = 0
     internal var saturationFinal = 1.0F
@@ -146,6 +153,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
         photoEditor = PhotoEditor.Builder(this@MainActivity, image_preview)
             .setPinchTextScalable(true)
+            .setDefaultEmojiTypeface(Typeface.createFromAsset(assets, "emojione-android.ttf"))
             .build()
 
         loadImage()
@@ -154,6 +162,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         filterListFragment = FilterListFragment.getInstance()
         editImageFragment = EditImageFragment.getInstance()
         brushFragment = BrushFragment.getInstance()
+        emojiFragment = EmojiFragment.getInstance()
 
         btn_filters.setOnClickListener {
             if (filterListFragment != null) {
@@ -176,6 +185,14 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
                 brushFragment.setListener(this@MainActivity)
                 brushFragment.show(supportFragmentManager, brushFragment.tag)
+            }
+        }
+
+        btn_emoji.setOnClickListener {
+            if (emojiFragment != null) {
+
+                emojiFragment.setListener(this@MainActivity)
+                emojiFragment.show(supportFragmentManager, emojiFragment.tag)
             }
         }
     }
@@ -312,7 +329,10 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
             }).check()
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == SELECT_GALLERY_PERMISSION) {
 
             val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 800, height = 800)

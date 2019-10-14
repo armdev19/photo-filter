@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.thumbnail_list_item.view.*
 
 class ThumbnailAdapter (private val context: Context,
                         private val thumbnailItemList: List<ThumbnailItem>,
-                        private val listener: FilterListFragmentListener): RecyclerView.Adapter<ThumbnailAdapter.MyViewHolder>( ) {
+                        private val listener: FilterListFragmentListener): RecyclerView.Adapter<ThumbnailAdapter.MyViewHolder>() {
 
 
     private var selectedIndex = 0
