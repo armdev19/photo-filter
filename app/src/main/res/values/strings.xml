@@ -8,5 +8,8 @@
     <string name="edit">Edit</string>
     <string name="brush">Brush</string>
     <string name="emoji">Emoji</string>
+    <string name="text">Text</string>
+    <string name="enter_text">Enter your text</string>
+    <string name="done_btn_text">Done</string>
 
 </resources>

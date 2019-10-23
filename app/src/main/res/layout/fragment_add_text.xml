@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AddTextFragment"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/edt_add_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_text"
+        android:maxHeight="200dp"
+        android:scrollbars="vertical"/>
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_color_text"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+    </androidx.recyclerview.widget.RecyclerView>
+    
+    <Button
+        android:id="@+id/btn_done"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/done_btn_text"/>
+
+
+
+</LinearLayout>

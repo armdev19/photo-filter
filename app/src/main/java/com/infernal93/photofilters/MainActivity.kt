@@ -17,10 +17,7 @@ import android.webkit.PermissionRequest
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.infernal93.photofilters.Adapter.ViewPagerAdapter
-import com.infernal93.photofilters.Interface.BrushFragmentListener
-import com.infernal93.photofilters.Interface.EditImageFragmentListener
-import com.infernal93.photofilters.Interface.EmojiFragmentListener
-import com.infernal93.photofilters.Interface.FilterListFragmentListener
+import com.infernal93.photofilters.Interface.*
 import com.infernal93.photofilters.Utils.BitMapUtils
 import com.infernal93.photofilters.Utils.NonSwipeViewPager
 import com.karumi.dexter.Dexter
@@ -39,7 +36,11 @@ import java.lang.Exception
 import kotlin.jvm.internal.MutablePropertyReference
 
 class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener,
-    BrushFragmentListener, EmojiFragmentListener {
+    BrushFragmentListener, EmojiFragmentListener, AddTextFragmentListener {
+
+    override fun onAddTextListener(text: String, color: Int) {
+        photoEditor.addText(text, color)
+    }
 
     override fun onEmojiItemSelected(emoji: String) {
         photoEditor.addEmoji(emoji)
@@ -130,6 +131,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     internal lateinit var editImageFragment: EditImageFragment
     internal lateinit var brushFragment: BrushFragment
     internal lateinit var emojiFragment: EmojiFragment
+    internal lateinit var addTextFragment: AddTextFragment
 
     internal var brightnessFinal = 0
     internal var saturationFinal = 1.0F
@@ -163,6 +165,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         editImageFragment = EditImageFragment.getInstance()
         brushFragment = BrushFragment.getInstance()
         emojiFragment = EmojiFragment.getInstance()
+        addTextFragment = AddTextFragment.getInstance()
 
         btn_filters.setOnClickListener {
             if (filterListFragment != null) {
@@ -193,6 +196,14 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
                 emojiFragment.setListener(this@MainActivity)
                 emojiFragment.show(supportFragmentManager, emojiFragment.tag)
+            }
+        }
+
+        btn_add_text.setOnClickListener {
+            if (addTextFragment != null) {
+
+                addTextFragment.setListener(this@MainActivity)
+                addTextFragment.show(supportFragmentManager, addTextFragment.tag)
             }
         }
     }
