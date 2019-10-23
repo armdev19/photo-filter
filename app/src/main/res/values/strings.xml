@@ -11,5 +11,6 @@
     <string name="text">Text</string>
     <string name="enter_text">Enter your text</string>
     <string name="done_btn_text">Done</string>
+    <string name="image">Image</string>
 
 </resources>

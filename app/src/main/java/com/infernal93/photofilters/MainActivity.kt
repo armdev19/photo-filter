@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     }
 
     val SELECT_GALLERY_PERMISSION = 1000
+    val PICTURE_IMAGE_GALLERY_PERMISSION = 1001
 
     lateinit var photoEditor: PhotoEditor
 
@@ -206,6 +207,34 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
                 addTextFragment.show(supportFragmentManager, addTextFragment.tag)
             }
         }
+
+        btn_add_image.setOnClickListener {
+
+            addImageToPicture()
+        }
+    }
+
+    private fun addImageToPicture() {
+        Dexter.withActivity(this@MainActivity)
+            .withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(object: MultiplePermissionsListener{
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+
+                    if (report!!.areAllPermissionsGranted()) {
+
+                        val intent = Intent(Intent.ACTION_PICK)
+                        intent.type = "image/*"
+                        startActivityForResult(intent, PICTURE_IMAGE_GALLERY_PERMISSION)
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?, token: PermissionToken?) {
+
+                    Toast.makeText(this@MainActivity, "Permission denied", Toast.LENGTH_SHORT).show()
+                }
+
+            }).check()
     }
 
     private fun setupViewPager(viewPager: NonSwipeViewPager) {
@@ -283,6 +312,9 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
                                             openImage(path)
                                         }
                                     snackBar.show()
+
+                                    // Fix error restore bitmap to default
+                                    image_preview.source.setImageBitmap(saveBitmap)
                                 } else {
 
                                     val snackBar = Snackbar.make(coordinator,"Unable to save image", Snackbar.LENGTH_LONG)
@@ -344,7 +376,9 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == Activity.RESULT_OK && requestCode == SELECT_GALLERY_PERMISSION) {
+        if (resultCode == Activity.RESULT_OK) {
+
+            if (requestCode == SELECT_GALLERY_PERMISSION) {
 
             val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 800, height = 800)
 
@@ -361,6 +395,12 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
             // render select image thumb
              filterListFragment.displayImage(bitmap = bitmap)
+
+        } else if (requestCode == PICTURE_IMAGE_GALLERY_PERMISSION) {
+
+                val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 200, height = 200)
+                photoEditor.addImage(bitmap)
+            }
         }
     }
 }
