@@ -14,5 +14,7 @@
     <string name="image">Image</string>
     <string name="demo">DEMO</string>
     <string name="font_name">Arial</string>
+    <string name="frame">Frame</string>
+    <string name="add_frame">Add Frame</string>
 
 </resources>

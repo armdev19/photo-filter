@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Typeface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -36,7 +37,14 @@ import java.lang.Exception
 import kotlin.jvm.internal.MutablePropertyReference
 
 class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener,
-    BrushFragmentListener, EmojiFragmentListener, AddTextFragmentListener {
+    BrushFragmentListener, EmojiFragmentListener, AddTextFragmentListener,
+    AddFrameFragmentListener {
+
+    override fun onFrameSelected(frame: Int) {
+        val bitmap = BitmapFactory.decodeResource(resources, frame)
+        photoEditor.addImage(bitmap)
+    }
+
     override fun onAddTextListener(typeFace: Typeface, text: String, color: Int) {
         photoEditor.addText(typeFace, text, color)
     }
@@ -133,6 +141,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     internal lateinit var brushFragment: BrushFragment
     internal lateinit var emojiFragment: EmojiFragment
     internal lateinit var addTextFragment: AddTextFragment
+    internal lateinit var frameFragment: FrameFragment
 
     internal var brightnessFinal = 0
     internal var saturationFinal = 1.0F
@@ -167,6 +176,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         brushFragment = BrushFragment.getInstance()
         emojiFragment = EmojiFragment.getInstance()
         addTextFragment = AddTextFragment.getInstance()
+        frameFragment = FrameFragment.getInstance()
 
         btn_filters.setOnClickListener {
             if (filterListFragment != null) {
@@ -211,6 +221,15 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         btn_add_image.setOnClickListener {
 
             addImageToPicture()
+        }
+
+        btn_add_frame.setOnClickListener {
+
+            if (frameFragment != null) {
+
+                frameFragment.setListener(this@MainActivity)
+                frameFragment.show(supportFragmentManager, frameFragment.tag)
+            }
         }
     }
 
