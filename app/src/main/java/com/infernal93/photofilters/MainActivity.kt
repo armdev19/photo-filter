@@ -37,10 +37,10 @@ import kotlin.jvm.internal.MutablePropertyReference
 
 class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener,
     BrushFragmentListener, EmojiFragmentListener, AddTextFragmentListener {
-
-    override fun onAddTextListener(text: String, color: Int) {
-        photoEditor.addText(text, color)
+    override fun onAddTextListener(typeFace: Typeface, text: String, color: Int) {
+        photoEditor.addText(typeFace, text, color)
     }
+
 
     override fun onEmojiItemSelected(emoji: String) {
         photoEditor.addEmoji(emoji)
