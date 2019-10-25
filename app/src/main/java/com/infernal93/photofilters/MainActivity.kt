@@ -2,6 +2,7 @@ package com.infernal93.photofilters
 
 import android.Manifest
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,6 +10,7 @@ import android.graphics.Typeface
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -152,9 +154,13 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
     internal var imageSelectedUri: Uri? = null
 
+    internal var imageUri: Uri? = null
+    internal val CAMERA_REQUEST: Int = 9999
+
 
     object Main {
         val IMAGE_NAME = "flash.jpg"
+
     }
 
 
@@ -316,9 +322,45 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
             return true
         } else if (id == R.id.action_save) {
             saveImageToGallery()
+        } else if (id == R.id.action_camera) {
+            openCamera()
         }
 
         return true
+    }
+
+    private fun openCamera() {
+        Dexter.withActivity(this@MainActivity)
+            .withPermissions(Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE)
+            .withListener(object: MultiplePermissionsListener{
+                override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
+
+                    if (report!!.areAllPermissionsGranted()) {
+
+                        var values = ContentValues()
+                        values.put(MediaStore.Images.Media.TITLE, "New Picture")
+                        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
+                        imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+
+                        // Get best quality photo
+                        var cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+                        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+                        startActivityForResult(cameraIntent, CAMERA_REQUEST)
+
+
+                    }
+                    else {
+                        Toast.makeText(applicationContext, "Permission denied", Toast.LENGTH_LONG).show()
+                    }
+                }
+
+                override fun onPermissionRationaleShouldBeShown(permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?, token: PermissionToken?) {
+
+                    token!!.continuePermissionRequest()
+                }
+
+            }).check()
     }
 
     private fun saveImageToGallery() {
@@ -441,7 +483,34 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
                 filterListFragment = FilterListFragment.getInstance(originalImage!!)
                 filterListFragment.setListener(this)
 
-        } else if (requestCode == PICTURE_IMAGE_GALLERY_PERMISSION) {
+        }
+
+            else if (requestCode == CAMERA_REQUEST) {
+
+                val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, imageUri!!, width = 800, height = 800)
+
+                imageSelectedUri = imageUri!!
+
+                // clear bitmap memory
+                originalImage!!.recycle()
+                finalImage.recycle()
+                filteredImage.recycle()
+
+                originalImage = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+                filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
+                finalImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
+                image_preview.source.setImageBitmap(originalImage)
+
+                bitmap.recycle()
+
+                // render select image thumb
+                // filterListFragment.displayImage(bitmap = bitmap)
+                // Fix crush when the photo selection
+                filterListFragment = FilterListFragment.getInstance(originalImage!!)
+                filterListFragment.setListener(this)
+
+            }
+            else if (requestCode == PICTURE_IMAGE_GALLERY_PERMISSION) {
 
                 val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 200, height = 200)
                 photoEditor.addImage(bitmap)

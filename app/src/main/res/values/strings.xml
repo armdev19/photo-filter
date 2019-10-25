@@ -17,5 +17,8 @@
     <string name="frame">Frame</string>
     <string name="add_frame">Add Frame</string>
     <string name="crop_image">Crop</string>
+    <string name="title_camera">CAMERA</string>
+    <string name="title_open">OPEN</string>
+    <string name="title_save">SAVE</string>
 
 </resources>
