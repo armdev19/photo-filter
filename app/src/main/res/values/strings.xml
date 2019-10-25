@@ -16,5 +16,6 @@
     <string name="font_name">Arial</string>
     <string name="frame">Frame</string>
     <string name="add_frame">Add Frame</string>
+    <string name="crop_image">Crop</string>
 
 </resources>

@@ -25,6 +25,7 @@ import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import com.yalantis.ucrop.UCrop
 import com.zomato.photofilters.imageprocessors.Filter
 import com.zomato.photofilters.imageprocessors.subfilters.BrightnessSubFilter
 import com.zomato.photofilters.imageprocessors.subfilters.ContrastSubFilter
@@ -33,7 +34,9 @@ import ja.burhanrashid52.photoeditor.OnSaveBitmap
 import ja.burhanrashid52.photoeditor.PhotoEditor
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.io.File
 import java.lang.Exception
+import java.util.*
 import kotlin.jvm.internal.MutablePropertyReference
 
 class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener,
@@ -147,6 +150,8 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     internal var saturationFinal = 1.0F
     internal var contrastFinal = 1.0F
 
+    internal var imageSelectedUri: Uri? = null
+
 
     object Main {
         val IMAGE_NAME = "flash.jpg"
@@ -233,6 +238,19 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
                 frameFragment.show(supportFragmentManager, frameFragment.tag)
             }
         }
+
+        btn_crop_image.setOnClickListener {
+
+            startCrop(imageSelectedUri)
+        }
+    }
+
+    private fun startCrop(uri: Uri?) {
+        val destinationFileName = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
+
+        val uCrop = UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destinationFileName)))
+
+        uCrop.start(this@MainActivity)
     }
 
     private fun addImageToPicture() {
@@ -403,6 +421,8 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
             val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 800, height = 800)
 
+            imageSelectedUri = data.data!!
+
             // clear bitmap memory
             originalImage!!.recycle()
             finalImage.recycle()
@@ -425,7 +445,27 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
                 val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 200, height = 200)
                 photoEditor.addImage(bitmap)
-            }
+            } else if (requestCode == UCrop.REQUEST_CROP)
+                    handleCropResult(data)
+        } else if (resultCode == UCrop.RESULT_ERROR)
+                    handleCropError(data)
+    }
+
+    private fun handleCropError(data: Intent?) {
+        var cropError = UCrop.getError(data!!)
+        if (cropError != null) {
+
+            Toast.makeText(this@MainActivity, "" + cropError.message, Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this@MainActivity, "Unexpected Error", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun handleCropResult(data: Intent?) {
+        var resultUri = UCrop.getOutput(data!!)
+        if (resultUri != null)
+                image_preview.source.setImageURI(resultUri)
+        else
+            Toast.makeText(this@MainActivity, "Cannot retrieve crop image", Toast.LENGTH_SHORT).show()
     }
 }

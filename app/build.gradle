@@ -47,4 +47,6 @@ dependencies {
     implementation 'info.androidhive:imagefilters:1.0.7'
     // Emoji library
     implementation 'io.github.rockerhieu:emojicon:1.4.2'
+    // Crop Image library
+    implementation 'com.github.yalantis:ucrop:2.2.4-native'
 }
