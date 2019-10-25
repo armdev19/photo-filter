@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     }
 
     override fun onFilterSelected(filter: Filter) {
-        resetControls()
+        //resetControls()
         filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
         image_preview.source.setImageBitmap(filter.processFilter(filteredImage))
         finalImage = filteredImage.copy(Bitmap.Config.ARGB_8888, true)
@@ -171,7 +171,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         loadImage()
 
         // Init
-        filterListFragment = FilterListFragment.getInstance()
+        filterListFragment = FilterListFragment.getInstance(bitmapSave = null)
         editImageFragment = EditImageFragment.getInstance()
         brushFragment = BrushFragment.getInstance()
         emojiFragment = EmojiFragment.getInstance()
@@ -180,6 +180,8 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
         btn_filters.setOnClickListener {
             if (filterListFragment != null) {
+                filterListFragment.show(supportFragmentManager, filterListFragment.tag)
+            } else {
                 filterListFragment.setListener(this@MainActivity)
                 filterListFragment.show(supportFragmentManager, filterListFragment.tag)
             }
@@ -409,11 +411,15 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
             originalImage = bitmap.copy(Bitmap.Config.ARGB_8888, true)
             filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
             finalImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
+            image_preview.source.setImageBitmap(originalImage)
 
             bitmap.recycle()
 
             // render select image thumb
-             filterListFragment.displayImage(bitmap = bitmap)
+                // filterListFragment.displayImage(bitmap = bitmap)
+            // Fix crush when the photo selection
+                filterListFragment = FilterListFragment.getInstance(originalImage!!)
+                filterListFragment.setListener(this)
 
         } else if (requestCode == PICTURE_IMAGE_GALLERY_PERMISSION) {
 

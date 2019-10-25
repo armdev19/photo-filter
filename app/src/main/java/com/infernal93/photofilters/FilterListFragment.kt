@@ -32,10 +32,15 @@ class FilterListFragment : BottomSheetDialogFragment(), FilterListFragmentListen
     companion object {
 
         internal var instance: FilterListFragment? = null
+        internal var bitmap: Bitmap? = null
 
-        fun getInstance(): FilterListFragment {
-            if (instance == null)
+        fun getInstance(bitmapSave: Bitmap?): FilterListFragment {
+            bitmap = bitmapSave
+            if (instance == null) {
+
                 instance = FilterListFragment()
+            }
+
             return instance!!
         }
 
@@ -72,7 +77,7 @@ class FilterListFragment : BottomSheetDialogFragment(), FilterListFragmentListen
         recycler_view.addItemDecoration(SpaceItemDecoration(space = space))
         recycler_view.adapter = adapter
 
-        displayImage(null)
+        displayImage(bitmap = bitmap)
 
         return itemView
     }
