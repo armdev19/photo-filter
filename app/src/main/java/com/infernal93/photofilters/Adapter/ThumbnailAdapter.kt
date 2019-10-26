@@ -8,7 +8,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.infernal93.photofilters.FilterListFragment
 import com.infernal93.photofilters.Interface.FilterListFragmentListener
 import com.infernal93.photofilters.R
 import com.zomato.photofilters.utils.ThumbnailItem
@@ -49,13 +48,7 @@ class ThumbnailAdapter (private val context: Context,
 
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        var thumbNail: ImageView
-        var filterName: TextView
-        init {
-
-            thumbNail = itemView.thumbnail
-            filterName = itemView.filter_name
-        }
-
+        var thumbNail: ImageView = itemView.thumbnail
+        var filterName: TextView = itemView.filter_name
     }
 }

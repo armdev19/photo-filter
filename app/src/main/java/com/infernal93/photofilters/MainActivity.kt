@@ -14,9 +14,6 @@ import android.provider.MediaStore
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.accessibility.AccessibilityEventSource
-import android.webkit.PermissionRequest
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import com.infernal93.photofilters.Adapter.ViewPagerAdapter
@@ -39,7 +36,6 @@ import kotlinx.android.synthetic.main.content_main.*
 import java.io.File
 import java.lang.Exception
 import java.util.*
-import kotlin.jvm.internal.MutablePropertyReference
 
 class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageFragmentListener,
     BrushFragmentListener, EmojiFragmentListener, AddTextFragmentListener,
@@ -53,7 +49,6 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     override fun onAddTextListener(typeFace: Typeface, text: String, color: Int) {
         photoEditor.addText(typeFace, text, color)
     }
-
 
     override fun onEmojiItemSelected(emoji: String) {
         photoEditor.addEmoji(emoji)
@@ -101,16 +96,14 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         image_preview.source.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
     }
 
-    override fun onConstrantChanged(constrant: Float) {
-        contrastFinal = constrant
+    override fun onContrastChanged(contrast: Float) {
+        contrastFinal = contrast
         val myFilter = Filter()
-        myFilter.addSubFilter(ContrastSubFilter(constrant))
+        myFilter.addSubFilter(ContrastSubFilter(contrast))
         image_preview.source.setImageBitmap(myFilter.processFilter(finalImage.copy(Bitmap.Config.ARGB_8888, true)))
     }
 
-    override fun onEditStarted() {
-
-    }
+    override fun onEditStarted() {}
 
     override fun onEditCompleted() {
         val bitmap = filteredImage.copy(Bitmap.Config.ARGB_8888, true)
@@ -137,38 +130,33 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
         contrastFinal = 1.0F
     }
 
-    internal var originalImage: Bitmap? = null
-    internal lateinit var filteredImage: Bitmap
-    internal lateinit var finalImage: Bitmap
+    private var originalImage: Bitmap? = null
+    private lateinit var filteredImage: Bitmap
+    private lateinit var finalImage: Bitmap
 
-    internal lateinit var filterListFragment: FilterListFragment
-    internal lateinit var editImageFragment: EditImageFragment
-    internal lateinit var brushFragment: BrushFragment
-    internal lateinit var emojiFragment: EmojiFragment
-    internal lateinit var addTextFragment: AddTextFragment
-    internal lateinit var frameFragment: FrameFragment
+    private lateinit var filterListFragment: FilterListFragment
+    private lateinit var editImageFragment: EditImageFragment
+    private lateinit var brushFragment: BrushFragment
+    private lateinit var emojiFragment: EmojiFragment
+    private lateinit var addTextFragment: AddTextFragment
+    private lateinit var frameFragment: FrameFragment
 
-    internal var brightnessFinal = 0
-    internal var saturationFinal = 1.0F
-    internal var contrastFinal = 1.0F
+    private var brightnessFinal = 0
+    private var saturationFinal = 1.0F
+    private var contrastFinal = 1.0F
 
-    internal var imageSelectedUri: Uri? = null
+    private var imageSelectedUri: Uri? = null
 
     internal var imageUri: Uri? = null
     internal val CAMERA_REQUEST: Int = 9999
 
-
     object Main {
         val IMAGE_NAME = "flash.jpg"
-
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         // set toolbar
         setSupportActionBar(toolBar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
@@ -180,7 +168,6 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
             .build()
 
         loadImage()
-
         // Init
         filterListFragment = FilterListFragment.getInstance(bitmapSave = null)
         editImageFragment = EditImageFragment.getInstance()
@@ -207,9 +194,7 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
         btn_brush.setOnClickListener {
             if (brushFragment != null) {
-
                 photoEditor.setBrushDrawingMode(true)
-
                 brushFragment.setListener(this@MainActivity)
                 brushFragment.show(supportFragmentManager, brushFragment.tag)
             }
@@ -217,7 +202,6 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
         btn_emoji.setOnClickListener {
             if (emojiFragment != null) {
-
                 emojiFragment.setListener(this@MainActivity)
                 emojiFragment.show(supportFragmentManager, emojiFragment.tag)
             }
@@ -225,37 +209,30 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
         btn_add_text.setOnClickListener {
             if (addTextFragment != null) {
-
                 addTextFragment.setListener(this@MainActivity)
                 addTextFragment.show(supportFragmentManager, addTextFragment.tag)
             }
         }
 
         btn_add_image.setOnClickListener {
-
             addImageToPicture()
         }
 
         btn_add_frame.setOnClickListener {
-
             if (frameFragment != null) {
-
                 frameFragment.setListener(this@MainActivity)
                 frameFragment.show(supportFragmentManager, frameFragment.tag)
             }
         }
 
         btn_crop_image.setOnClickListener {
-
             startCrop(imageSelectedUri)
         }
     }
 
     private fun startCrop(uri: Uri?) {
         val destinationFileName = StringBuilder(UUID.randomUUID().toString()).append(".jpg").toString()
-
         val uCrop = UCrop.of(uri!!, Uri.fromFile(File(cacheDir, destinationFileName)))
-
         uCrop.start(this@MainActivity)
     }
 
@@ -267,7 +244,6 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
 
                     if (report!!.areAllPermissionsGranted()) {
-
                         val intent = Intent(Intent.ACTION_PICK)
                         intent.type = "image/*"
                         startActivityForResult(intent, PICTURE_IMAGE_GALLERY_PERMISSION)
@@ -278,7 +254,6 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
                     Toast.makeText(this@MainActivity, "Permission denied", Toast.LENGTH_SHORT).show()
                 }
-
             }).check()
     }
 
@@ -295,11 +270,8 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
         adapter.addFragment(filterListFragment, "FILTERS")
         adapter.addFragment(editImageFragment, "EDIT")
-
         viewPager.adapter = adapter
-
     }
-
 
     private fun loadImage() {
         originalImage = BitMapUtils.getBitmapFromAssets(this@MainActivity, Main.IMAGE_NAME, width = 300, height = 300)
@@ -316,16 +288,14 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
 
-        if (id == R.id.action_open) {
-
-            openImageFromGallery()
-            return true
-        } else if (id == R.id.action_save) {
-            saveImageToGallery()
-        } else if (id == R.id.action_camera) {
-            openCamera()
+        when (id) {
+            R.id.action_open -> {
+                openImageFromGallery()
+                return true
+            }
+            R.id.action_save -> saveImageToGallery()
+            R.id.action_camera -> openCamera()
         }
-
         return true
     }
 
@@ -335,31 +305,23 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .withListener(object: MultiplePermissionsListener{
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-
                     if (report!!.areAllPermissionsGranted()) {
-
-                        var values = ContentValues()
+                        val values = ContentValues()
                         values.put(MediaStore.Images.Media.TITLE, "New Picture")
                         values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
                         imageUri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
-
                         // Get best quality photo
-                        var cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+                        val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
                         startActivityForResult(cameraIntent, CAMERA_REQUEST)
-
-
-                    }
-                    else {
+                    } else {
                         Toast.makeText(applicationContext, "Permission denied", Toast.LENGTH_LONG).show()
                     }
                 }
 
                 override fun onPermissionRationaleShouldBeShown(permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?, token: PermissionToken?) {
-
                     token!!.continuePermissionRequest()
                 }
-
             }).check()
     }
 
@@ -369,54 +331,41 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)
             .withListener(object: MultiplePermissionsListener{
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
-
                     if (report!!.areAllPermissionsGranted()) {
-
                         photoEditor.saveAsBitmap(object: OnSaveBitmap{
                             override fun onFailure(e: Exception?) {
-
                                 val snackBar = Snackbar.make(coordinator,e!!.message.toString(), Snackbar.LENGTH_LONG)
                                 snackBar.show()
                             }
 
                             override fun onBitmapReady(saveBitmap: Bitmap?) {
-
                                 val path = BitMapUtils.insertImage(contentResolver = contentResolver,
                                     source = saveBitmap,
                                     title = System.currentTimeMillis().toString() +  "_profile.jpg",
                                     description = "")
-
                                 if (!TextUtils.isEmpty(path)) {
-
                                     val snackBar = Snackbar.make(coordinator, "Image saved to gallery", Snackbar.LENGTH_LONG)
                                         .setAction("OPEN") {
                                             openImage(path)
                                         }
                                     snackBar.show()
-
                                     // Fix error restore bitmap to default
                                     image_preview.source.setImageBitmap(saveBitmap)
                                 } else {
-
                                     val snackBar = Snackbar.make(coordinator,"Unable to save image", Snackbar.LENGTH_LONG)
                                     snackBar.show()
                                 }
                             }
 
                         })
-
-
-                    }
-                    else {
+                    } else {
                         Toast.makeText(applicationContext, "Permission denied", Toast.LENGTH_LONG).show()
                     }
                 }
 
                 override fun onPermissionRationaleShouldBeShown(permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?, token: PermissionToken?) {
-
                     token!!.continuePermissionRequest()
                 }
-
             }).check()
     }
 
@@ -436,7 +385,6 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
             .withListener(object: MultiplePermissionsListener {
                 override fun onPermissionsChecked(report: MultiplePermissionsReport?) {
                     if (report!!.areAllPermissionsGranted()) {
-
                         val intent = Intent(Intent.ACTION_PICK)
                         intent.type = "image/*"
                         startActivityForResult(intent, SELECT_GALLERY_PERMISSION)
@@ -447,83 +395,65 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
 
                 override fun onPermissionRationaleShouldBeShown(permissions: MutableList<com.karumi.dexter.listener.PermissionRequest>?, token: PermissionToken?) {
                     token!!.continuePermissionRequest()
-
                 }
-
             }).check()
     }
-
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK) {
 
-            if (requestCode == SELECT_GALLERY_PERMISSION) {
+            when (requestCode) {
+                SELECT_GALLERY_PERMISSION -> {
+                    val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 800, height = 800)
+                    imageSelectedUri = data.data!!
+                    // clear bitmap memory
+                    originalImage!!.recycle()
+                    finalImage.recycle()
+                    filteredImage.recycle()
 
-            val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 800, height = 800)
+                    originalImage = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+                    filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
+                    finalImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
+                    image_preview.source.setImageBitmap(originalImage)
+                    bitmap.recycle()
+                    // Fix crush when the photo selection
+                    filterListFragment = FilterListFragment.getInstance(originalImage!!)
+                    filterListFragment.setListener(this)
 
-            imageSelectedUri = data.data!!
+                }
+                CAMERA_REQUEST -> {
+                    val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, imageUri!!, width = 800, height = 800)
+                    imageSelectedUri = imageUri!!
+                    // clear bitmap memory
+                    originalImage!!.recycle()
+                    finalImage.recycle()
+                    filteredImage.recycle()
 
-            // clear bitmap memory
-            originalImage!!.recycle()
-            finalImage.recycle()
-            filteredImage.recycle()
+                    originalImage = bitmap.copy(Bitmap.Config.ARGB_8888, true)
+                    filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
+                    finalImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
+                    image_preview.source.setImageBitmap(originalImage)
+                    bitmap.recycle()
+                    // Fix crush when the photo selection
+                    filterListFragment = FilterListFragment.getInstance(originalImage!!)
+                    filterListFragment.setListener(this)
 
-            originalImage = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-            filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
-            finalImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
-            image_preview.source.setImageBitmap(originalImage)
+                }
+                PICTURE_IMAGE_GALLERY_PERMISSION -> {
 
-            bitmap.recycle()
-
-            // render select image thumb
-                // filterListFragment.displayImage(bitmap = bitmap)
-            // Fix crush when the photo selection
-                filterListFragment = FilterListFragment.getInstance(originalImage!!)
-                filterListFragment.setListener(this)
-
-        }
-
-            else if (requestCode == CAMERA_REQUEST) {
-
-                val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, imageUri!!, width = 800, height = 800)
-
-                imageSelectedUri = imageUri!!
-
-                // clear bitmap memory
-                originalImage!!.recycle()
-                finalImage.recycle()
-                filteredImage.recycle()
-
-                originalImage = bitmap.copy(Bitmap.Config.ARGB_8888, true)
-                filteredImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
-                finalImage = originalImage!!.copy(Bitmap.Config.ARGB_8888, true)
-                image_preview.source.setImageBitmap(originalImage)
-
-                bitmap.recycle()
-
-                // render select image thumb
-                // filterListFragment.displayImage(bitmap = bitmap)
-                // Fix crush when the photo selection
-                filterListFragment = FilterListFragment.getInstance(originalImage!!)
-                filterListFragment.setListener(this)
-
+                    val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 200, height = 200)
+                    photoEditor.addImage(bitmap)
+                }
+                UCrop.REQUEST_CROP -> handleCropResult(data)
             }
-            else if (requestCode == PICTURE_IMAGE_GALLERY_PERMISSION) {
-
-                val bitmap = BitMapUtils.getBitmapFromGallery(this@MainActivity, data!!.data!!, width = 200, height = 200)
-                photoEditor.addImage(bitmap)
-            } else if (requestCode == UCrop.REQUEST_CROP)
-                    handleCropResult(data)
         } else if (resultCode == UCrop.RESULT_ERROR)
                     handleCropError(data)
     }
 
     private fun handleCropError(data: Intent?) {
-        var cropError = UCrop.getError(data!!)
+        val cropError = UCrop.getError(data!!)
         if (cropError != null) {
-
             Toast.makeText(this@MainActivity, "" + cropError.message, Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this@MainActivity, "Unexpected Error", Toast.LENGTH_SHORT).show()
@@ -531,10 +461,11 @@ class MainActivity : AppCompatActivity(), FilterListFragmentListener, EditImageF
     }
 
     private fun handleCropResult(data: Intent?) {
-        var resultUri = UCrop.getOutput(data!!)
-        if (resultUri != null)
-                image_preview.source.setImageURI(resultUri)
-        else
+        val resultUri = UCrop.getOutput(data!!)
+        if (resultUri != null) {
+            image_preview.source.setImageURI(resultUri)
+        } else {
             Toast.makeText(this@MainActivity, "Cannot retrieve crop image", Toast.LENGTH_SHORT).show()
+        }
     }
 }

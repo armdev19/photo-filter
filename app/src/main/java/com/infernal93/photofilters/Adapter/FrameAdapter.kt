@@ -16,34 +16,25 @@ class FrameAdapter(internal var context: Context,
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FrameViewHolder {
-
         val itemView = LayoutInflater.from(context).inflate(R.layout.frame_item, parent, false)
-
-
-
         return FrameViewHolder(itemView = itemView)
     }
 
     override fun getItemCount(): Int {
-
         return frameList.size
     }
 
     override fun onBindViewHolder(holder: FrameViewHolder, position: Int) {
-
         holder.imgFrame.setImageResource(frameList.get(position))
-
-        if (row_selected == position)
+        if (rowSelected == position)
             holder.imgCheck.visibility = View.VISIBLE
         else
             holder.imgCheck.visibility = View.INVISIBLE
-
     }
-
 
     internal var frameList: List<Int>
 
-    internal var row_selected = -1
+    internal var rowSelected = -1
 
     init {
         this.frameList = getFrameList()
@@ -52,7 +43,6 @@ class FrameAdapter(internal var context: Context,
     private fun getFrameList(): List<Int> {
 
         val result = ArrayList<Int>()
-
         result.add(R.drawable.frame_1)
         result.add(R.drawable.frame_2)
         result.add(R.drawable.frame_3)
@@ -68,19 +58,13 @@ class FrameAdapter(internal var context: Context,
     }
 
     inner class FrameViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
-        internal var imgCheck: ImageView
-        internal var imgFrame: ImageView
+        internal var imgCheck: ImageView = itemView.findViewById(R.id.img_check_frame)
+        internal var imgFrame: ImageView = itemView.findViewById(R.id.img_frame)
 
         init {
-
-            imgCheck = itemView.findViewById(R.id.img_check_frame)
-            imgFrame = itemView.findViewById(R.id.img_frame)
-
             itemView.setOnClickListener {
-
                 listener.onFrameItemSelected(frame = frameList.get(adapterPosition))
-                row_selected = adapterPosition
+                rowSelected = adapterPosition
                 notifyDataSetChanged()
             }
         }

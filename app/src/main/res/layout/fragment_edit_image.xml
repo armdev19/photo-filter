@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
+    android:paddingStart="@dimen/padding_size"
+    android:paddingEnd="@dimen/padding_size"
     android:orientation="vertical"
     android:gravity="center_vertical"
     tools:context=".EditImageFragment">
@@ -19,10 +19,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="BRIGHTNESS"/>
+            android:text="@string/brightness"/>
 
         <SeekBar
-            android:id="@+id/seekbar_brightness"
+            android:id="@+id/seekBar_brightness"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
@@ -38,10 +38,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="CONSTRANT"/>
+            android:text="@string/contrast"/>
 
         <SeekBar
-            android:id="@+id/seekbar_constrant"
+            android:id="@+id/seekBar_contrast"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>
@@ -57,10 +57,10 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SATURATION"/>
+            android:text="@string/saturation"/>
 
         <SeekBar
-            android:id="@+id/seekbar_saturation"
+            android:id="@+id/seekBar_saturation"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"/>

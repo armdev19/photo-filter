@@ -1,6 +1,5 @@
 package com.infernal93.photofilters
 
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,109 +9,80 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.infernal93.photofilters.Interface.EditImageFragmentListener
 import kotlinx.android.synthetic.main.fragment_edit_image.*
 
-
 class EditImageFragment : BottomSheetDialogFragment(), SeekBar.OnSeekBarChangeListener {
 
     private var listener: EditImageFragmentListener? = null
 
-    private var seekBarBrightness: SeekBar? = null
-    private var seekBarSaturation: SeekBar? = null
-    private var seekBarContrast: SeekBar? = null
-
     companion object {
-        internal var instance: EditImageFragment?= null
+        private var instance: EditImageFragment?= null
 
         fun getInstance(): EditImageFragment{
             if (instance == null)
                 instance = EditImageFragment()
             return instance!!
         }
-
     }
 
     fun resetControls() {
-
-//        seekBarBrightness!!.progress = 100
-//        seekBarContrast!!.progress = 0
-//        seekBarSaturation!!.progress = 10
+        seekBar_brightness.progress = 100
+        seekBar_contrast.progress = 0
+        seekBar_saturation.progress = 10
     }
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
 
-        var progress = progress
+        var progressConstant = progress
         if (listener != null) {
 
-            if (seekBar!!.id == R.id.seekbar_brightness) {
-
-                listener!!.onBrightnessChanged(progress - 100)
-
-            } else if (seekBar.id == R.id.seekbar_constrant) {
-
-                progress += 10
-                val floatVal = .10f * progress
-
-                listener!!.onConstrantChanged(floatVal)
-
-            } else if (seekBar.id == R.id.seekbar_saturation) {
-
-                val floatVal = .10f * progress
-
-                listener!!.onSaturationChanged(floatVal)
+            when {
+                seekBar!!.id == R.id.seekBar_brightness -> listener!!.onBrightnessChanged(progressConstant - 100)
+                seekBar.id == R.id.seekBar_contrast -> {
+                    progressConstant += 10
+                    val floatVal = .10F * progressConstant
+                    listener!!.onContrastChanged(floatVal)
+                }
+                seekBar.id == R.id.seekBar_saturation -> {
+                    val floatVal = .10F * progressConstant
+                    listener!!.onSaturationChanged(floatVal)
+                }
             }
         }
     }
 
     override fun onStartTrackingTouch(seekBar: SeekBar?) {
-
         if (listener != null) {
-
             listener!!.onEditStarted()
         }
     }
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
-
         if (listener != null) {
-
             listener!!.onEditCompleted()
         }
     }
-
-
 
     fun setListener(listener: EditImageFragmentListener) {
         this.listener = listener
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_edit_image, container, false)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_edit_image, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        seekBar_brightness.max = 200
+        seekBar_brightness.progress = 100
 
-        // View
-        seekBarBrightness = view.findViewById(R.id.seekbar_brightness)
-        seekBarSaturation = view.findViewById(R.id.seekbar_saturation)
-        seekBarContrast = view.findViewById(R.id.seekbar_constrant)
+        seekBar_contrast.max = 20
+        seekBar_contrast.progress = 0
 
-        seekBarBrightness!!.max = 200
-        seekBarBrightness!!.progress = 100
+        seekBar_saturation.max = 30
+        seekBar_saturation.progress = 10
 
-        seekBarContrast!!.max = 20
-        seekBarContrast!!.progress = 0
-
-        seekBarSaturation!!.max = 30
-        seekBarSaturation!!.progress = 10
-
-        seekBarBrightness!!.setOnSeekBarChangeListener(this)
-        seekBarContrast!!.setOnSeekBarChangeListener(this)
-        seekBarSaturation!!.setOnSeekBarChangeListener(this)
-        return view
+        seekBar_brightness.setOnSeekBarChangeListener(this)
+        seekBar_contrast.setOnSeekBarChangeListener(this)
+        seekBar_saturation.setOnSeekBarChangeListener(this)
     }
-
-
 }

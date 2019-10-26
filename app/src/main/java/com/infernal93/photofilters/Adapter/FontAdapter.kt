@@ -18,12 +18,10 @@ class FontAdapter(internal var context: Context,
                   internal var listener: FontAdapter.FontAdapterClickListener):
     RecyclerView.Adapter<FontAdapter.FontViewHolder>() {
 
-    var row_selected = -1
+    var rowSelected = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FontViewHolder {
-
         val itemView = LayoutInflater.from(context).inflate(R.layout.font_item, parent, false)
-
         return FontViewHolder(itemView = itemView)
     }
 
@@ -33,7 +31,7 @@ class FontAdapter(internal var context: Context,
 
     override fun onBindViewHolder(holder: FontViewHolder, position: Int) {
 
-        if (row_selected == position)
+        if (rowSelected == position)
             holder.imgCheck.visibility = View.VISIBLE
         else
             holder.imgCheck.visibility = View.INVISIBLE
@@ -51,12 +49,9 @@ class FontAdapter(internal var context: Context,
     }
 
     private fun loadFontList(): List<String>? {
-
-        var result = ArrayList<String>()
-
+        val result = ArrayList<String>()
         result.add("Cheque-Black.otf")
         result.add("Cheque-Regular.otf")
-
         return result
     }
 
@@ -66,21 +61,14 @@ class FontAdapter(internal var context: Context,
     }
 
     inner class FontViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
-        internal var txtFontDemo: TextView
-        internal var txtFontName: TextView
-        internal var imgCheck: ImageView
+        internal var txtFontDemo: TextView = itemView.findViewById(R.id.txt_font_demo)
+        internal var txtFontName: TextView = itemView.findViewById(R.id.txt_font_name)
+        internal var imgCheck: ImageView = itemView.findViewById(R.id.img_check)
 
         init {
-            txtFontDemo = itemView.findViewById(R.id.txt_font_demo)
-            txtFontName = itemView.findViewById(R.id.txt_font_name)
-
-            imgCheck = itemView.findViewById(R.id.img_check)
-
             itemView.setOnClickListener{
-
                 listener.onFontSelected(fontName = fontList[adapterPosition])
-                row_selected = adapterPosition
+                rowSelected = adapterPosition
                 notifyDataSetChanged()
             }
         }

@@ -1,6 +1,5 @@
 package com.infernal93.photofilters.Utils
 
-
 import android.content.ContentResolver
 import android.content.ContentUris
 import android.content.ContentValues
@@ -11,7 +10,6 @@ import android.graphics.Matrix
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
-import androidx.constraintlayout.widget.Constraints.TAG
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream

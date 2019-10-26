@@ -4,7 +4,7 @@
     android:id="@+id/color_section"
     android:layout_width="@dimen/card_view_size"
     android:layout_height="@dimen/card_view_size"
-    android:padding="16dp"
+    android:padding="@dimen/padding_size"
     app:cardBackgroundColor="@color/color_background_card"
     app:cardCornerRadius="0dp">
 

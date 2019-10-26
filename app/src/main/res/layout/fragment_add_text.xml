@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".AddTextFragment"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="@dimen/padding_size">
 
     <EditText
         android:id="@+id/edt_add_text"
@@ -26,14 +26,10 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"/>
 
-
-    
     <Button
         android:id="@+id/btn_done"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/done_btn_text"/>
-
-
 
 </LinearLayout>

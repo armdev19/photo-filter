@@ -6,16 +6,13 @@
     tools:context=".FilterListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view"
+        android:id="@+id/recycler_filter_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:clipChildren="false"
         android:padding="4dp"
         android:scrollbars="none">
-
-
     </androidx.recyclerview.widget.RecyclerView>
-
 
 </FrameLayout>

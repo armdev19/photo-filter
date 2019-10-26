@@ -1,9 +1,6 @@
 <resources>
     <string name="app_name">Photo Filters</string>
 
-
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
     <string name="filters">Filters</string>
     <string name="edit">Edit</string>
     <string name="brush">Brush</string>
@@ -20,5 +17,11 @@
     <string name="title_camera">CAMERA</string>
     <string name="title_open">OPEN</string>
     <string name="title_save">SAVE</string>
+    <string name="brush_size">BRUSH SIZE</string>
+    <string name="opacity">OPACITY</string>
+    <string name="brightness">BRIGHTNESS</string>
+    <string name="contrast">CONTRAST</string>
+    <string name="saturation">SATURATION</string>
+    <string name="filter_name">FILTER NAME</string>
 
 </resources>

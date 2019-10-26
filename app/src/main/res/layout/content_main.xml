@@ -34,7 +34,7 @@
                 android:id="@+id/btn_filters"
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout
@@ -65,7 +65,7 @@
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
                 android:layout_marginStart="8dp"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout
@@ -96,7 +96,7 @@
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
                 android:layout_marginStart="8dp"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout
@@ -127,7 +127,7 @@
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
                 android:layout_marginStart="8dp"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout
@@ -158,7 +158,7 @@
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
                 android:layout_marginStart="8dp"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout
@@ -189,7 +189,7 @@
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
                 android:layout_marginStart="8dp"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout
@@ -220,7 +220,7 @@
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
                 android:layout_marginStart="8dp"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout
@@ -251,7 +251,7 @@
                 android:layout_width="@dimen/card_view_size"
                 android:layout_height="@dimen/card_view_size"
                 android:layout_marginStart="8dp"
-                android:padding="16dp"
+                android:padding="@dimen/padding_size"
                 app:cardBackgroundColor="@color/color_background_card">
 
                 <LinearLayout

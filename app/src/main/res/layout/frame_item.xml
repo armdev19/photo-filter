@@ -24,8 +24,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/frame_1"/>
 
-
-
     </FrameLayout>
 
 </androidx.cardview.widget.CardView>

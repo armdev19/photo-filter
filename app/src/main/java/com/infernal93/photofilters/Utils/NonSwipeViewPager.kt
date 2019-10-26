@@ -12,7 +12,6 @@ class NonSwipeViewPager: ViewPager {
     private val TAG = "NonSwipeViewPager"
 
     constructor(context: Context) : super(context) {
-
         setMyScroller()
     }
 
