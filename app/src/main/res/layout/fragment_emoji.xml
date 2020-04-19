@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragments.EmojiFragment"
-    android:padding="@dimen/padding_size">
+    android:padding="@dimen/padding_size"
+    android:background="@color/black">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_emoji"

@@ -49,14 +49,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_image_white_24dp"
+                        android:src="@drawable/ic_image_yellow_24dp"
                         android:contentDescription="@string/filters_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/filters"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -82,14 +82,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_edit_white_24dp"
+                        android:src="@drawable/ic_edit_yellow_24dp"
                         android:contentDescription="@string/edit_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/edit"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -115,14 +115,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_brush_white_24dp"
+                        android:src="@drawable/ic_brush_yellow_24dp"
                         android:contentDescription="@string/brush_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/brush"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -148,14 +148,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_emoji_white_24dp"
+                        android:src="@drawable/ic_emoji_yellow_24dp"
                         android:contentDescription="@string/emoji_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/emoji"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -181,14 +181,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_text_white_24dp"
+                        android:src="@drawable/ic_text_yellow_24dp"
                         android:contentDescription="@string/text_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/text"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -214,14 +214,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_broken_image_white_24dp"
+                        android:src="@drawable/ic_broken_image_yellow_24dp"
                         android:contentDescription="@string/image_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/image"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -247,14 +247,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_filter_frames_white_24dp"
+                        android:src="@drawable/ic_filter_frames_yellow_24dp"
                         android:contentDescription="@string/frame_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/frame"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -280,14 +280,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_crop_white_24dp"
+                        android:src="@drawable/ic_crop_yellow_24dp"
                         android:contentDescription="@string/crop_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/crop_image"
-                        android:textColor="@color/white"
+                        android:textColor="@color/yellow"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>

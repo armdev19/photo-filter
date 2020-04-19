@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.fragments.BrushFragment"
-    android:padding="@dimen/padding_size">
+    android:padding="@dimen/padding_size"
+    android:background="@color/black">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,27 +16,31 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/brush_size"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="@color/yellow"/>
 
         <SeekBar
             android:id="@+id/seekBar_brush_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:min="1"
-            android:max="100"/>
+            android:max="100"
+            style="@style/MySeekBar"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/opacity"
-            android:textSize="18sp"/>
+            android:textSize="18sp"
+            android:textColor="@color/yellow"/>
 
         <SeekBar
             android:id="@+id/seekBar_brush_opacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:min="1"
-            android:max="100"/>
+            android:max="100"
+            style="@style/MySeekBar"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_color"
@@ -49,7 +54,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textOff="Brush"
-            android:textOn="Eraser"/>
+            android:textOn="Eraser"
+            android:background="@color/color_background_card"
+            android:textColor="@color/yellow"/>
     </LinearLayout>
 
 
