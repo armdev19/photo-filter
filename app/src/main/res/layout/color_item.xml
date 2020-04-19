@@ -8,5 +8,4 @@
     app:cardBackgroundColor="@color/color_background_card"
     app:cardCornerRadius="0dp">
 
-
 </androidx.cardview.widget.CardView>

@@ -4,16 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/black"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".MainActivity"
+    tools:context=".view.activities.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <ja.burhanrashid52.photoeditor.PhotoEditorView
         android:id="@+id/image_preview"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="500dp"
         android:scaleType="centerCrop" />
 
     <HorizontalScrollView
@@ -28,7 +28,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:background="@color/black">
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/btn_filters"
@@ -41,13 +42,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_image_white_24dp" />
+                        android:src="@drawable/ic_image_white_24dp"
+                        android:contentDescription="@string/filters_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -72,13 +75,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_edit_white_24dp" />
+                        android:src="@drawable/ic_edit_white_24dp"
+                        android:contentDescription="@string/edit_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -103,13 +108,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_brush_white_24dp" />
+                        android:src="@drawable/ic_brush_white_24dp"
+                        android:contentDescription="@string/brush_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -134,13 +141,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_emoji_white_24dp" />
+                        android:src="@drawable/ic_emoji_white_24dp"
+                        android:contentDescription="@string/emoji_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -165,13 +174,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_text_white_24dp" />
+                        android:src="@drawable/ic_text_white_24dp"
+                        android:contentDescription="@string/text_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -196,13 +207,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_broken_image_white_24dp" />
+                        android:src="@drawable/ic_broken_image_white_24dp"
+                        android:contentDescription="@string/image_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -227,13 +240,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_filter_frames_white_24dp" />
+                        android:src="@drawable/ic_filter_frames_white_24dp"
+                        android:contentDescription="@string/frame_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -258,13 +273,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal|center_vertical"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/ic_crop_white_24dp" />
+                        android:src="@drawable/ic_crop_white_24dp"
+                        android:contentDescription="@string/crop_desc" />
 
                     <TextView
                         android:layout_width="wrap_content"

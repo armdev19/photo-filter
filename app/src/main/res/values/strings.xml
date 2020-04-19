@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Photo Filters</string>
+    <string name="app_name">Photo Editor</string>
 
     <string name="filters">Filters</string>
     <string name="edit">Edit</string>
@@ -23,5 +23,17 @@
     <string name="contrast">CONTRAST</string>
     <string name="saturation">SATURATION</string>
     <string name="filter_name">FILTER NAME</string>
+    <string name="filters_desc">Filters</string>
+    <string name="edit_desc">Edit</string>
+    <string name="brush_desc">Brush</string>
+    <string name="emoji_desc">Emoji</string>
+    <string name="text_desc">Text</string>
+    <string name="image_desc">Image</string>
+    <string name="frame_desc">Frame</string>
+    <string name="crop_desc">Crop</string>
+    <string name="check_desc">check</string>
+    <string name="check_frame_desc">check frame</string>
+    <string name="image_frame_desc">image frame</string>
+    <string name="thumbnail_desc">thumbnail</string>
 
 </resources>

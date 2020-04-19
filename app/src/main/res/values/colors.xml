@@ -9,4 +9,5 @@
     <color name="color_option_menu">#FF3990</color>
     <color name="color_background_card">#333639</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>
